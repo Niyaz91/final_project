@@ -1,13 +1,11 @@
-# Dockerfile
 FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock* /app/
+COPY requirements.txt .
 
-RUN pip install poetry && poetry config virtualenvs.create false \
-  && poetry install --no-interaction --no-ansi
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app
+COPY . .
 
 CMD ["uvicorn", "app.web:app", "--host", "0.0.0.0", "--port", "8000"]
